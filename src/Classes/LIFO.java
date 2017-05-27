@@ -2,14 +2,11 @@ package Classes;
 
 import java.util.List;
 
-/**
- * Created by Rafahel on 27/05/2017.
- */
 public class LIFO extends FIFO {
-    boolean novoProcesso;
-    String tab;
-    int last;
-    int idProcessoAtivoAtual;
+    private boolean novoProcesso;
+    private String tab;
+    private int last;
+    private int idProcessoAtivoAtual;
     public LIFO(List<Processo> processos) {
         super(processos);
         this.tab = "";
@@ -18,6 +15,7 @@ public class LIFO extends FIFO {
     }
 
     public void startLIFO(){
+        System.out.println("Iniciando LIFO");
         novoProcesso = false;
 
         while(true){
@@ -35,13 +33,7 @@ public class LIFO extends FIFO {
                 idProcessoAtivoAtual = processosAtivos.get(0).getId();
                 super.checaSeProcessoDeveSair();
             }
-
-
-
-
             tempoAtual ++;
-
-
         }
 
         super.mostraTabelafinal();

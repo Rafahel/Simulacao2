@@ -4,17 +4,14 @@ package Classes;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Rafahel on 26/05/2017.
- */
 public class RoundRobin {
-    int tempoAtual;
-    final int  quantum;
-    List<Processo> processos;
-    List<String> tabelaFinal;
-    List<Processo> processosAtivos;
-    int tempoTotalDecorrido;
-    int tempoOcioso;
+    private int tempoAtual;
+    private final int  quantum;
+    private List<Processo> processos;
+    private List<String> tabelaFinal;
+    private List<Processo> processosAtivos;
+    private int tempoTotalDecorrido;
+    private int tempoOcioso;
     public RoundRobin(int quantum, List<Processo> processos) {
         this.tempoAtual = 0;
         this.quantum = quantum;
@@ -25,11 +22,8 @@ public class RoundRobin {
         this.tempoOcioso = 0;
     }
 
-
-
-
-
     public void startRoundRobin(){
+        System.out.println("Iniciando Round Robin");
         int quantidadeProcessos = this.processos.size();
         boolean ocorreuTrocaDeProcesso = false;
         List<Processo> processosTerminados = new ArrayList<>();

@@ -15,12 +15,12 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        System.out.print("Numero de processos que devem ser simulados: ");
-        String op = "3";
+//        System.out.print("Numero de processos que devem ser simulados: ");
+        String op = "1";
         int rodadas = 1;
         int quantidade = 10;
 //        quantidade = scan.nextInt();
-        System.out.print("Quantum: ");
+//        System.out.print("Quantum: ");
         int quantum = 4;
 //        int quantum = scan.nextInt();
         //List<Processo> processos = criaProcessos(quantidade);
@@ -54,25 +54,27 @@ public class Main {
                 break;
             case "3": // LIFO
                 for (int i = 0; i < rodadas; i++) {
-//                    processos = criaProcessos(quantidade);
+                    processos = criaProcessos(quantidade);
 //                    processos = geradorManual1();
 //                    processos = geradorManual2();
-                    processos = geradorManual3();
+//                    processos = geradorManual3();
 //                    processos = geradorManual4();
                     LIFO lifo = new LIFO(processos);
                     lifo.startLIFO();
                 }
                 break;
-
-
+            case "4": // Preemptivo
+                for (int i = 0; i < rodadas; i++) {
+                    processos = criaProcessos(quantidade);
+//                    processos = geradorManual1();
+//                    processos = geradorManual2();
+//                    processos = geradorManual3();
+//                    processos = geradorManual4();
+                    LIFO lifo = new LIFO(processos);
+                    lifo.startLIFO();
+                }
+                break;
         }
-
-
-
-
-
-
-
 
     }
 

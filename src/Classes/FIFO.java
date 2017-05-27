@@ -3,19 +3,16 @@ package Classes;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Rafahel on 27/05/2017.
- */
 public class FIFO {
-    List<Processo> processos;
-    int tempoOcioso;
-    int tempoAtual;
-    List<Processo> processosAtivos;
-    int tempoTotalDecorrido;
-    List<String> tabelaFinal;
-    int finalizados;
-    String tab;
-    boolean firstRun;
+    protected List<Processo> processos;
+    protected int tempoOcioso;
+    protected int tempoAtual;
+    protected List<Processo> processosAtivos;
+    protected int tempoTotalDecorrido;
+    protected List<String> tabelaFinal;
+    protected int finalizados;
+    protected String tab;
+    protected  boolean firstRun;
     public FIFO(List<Processo> processos) {
         this.processos = processos;
         this.tempoOcioso = 0;
@@ -30,7 +27,7 @@ public class FIFO {
 
     public void startFIFO(){
 
-
+        System.out.println("Inciando FIFO");
         while(true){
             if(finalizados >= processos.size())
                 break;
