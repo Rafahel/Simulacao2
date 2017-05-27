@@ -14,7 +14,8 @@ public class FIFO {
     int tempoTotalDecorrido;
     List<String> tabelaFinal;
     int finalizados;
-
+    String tab;
+    boolean firstRun;
     public FIFO(List<Processo> processos) {
         this.processos = processos;
         this.tempoOcioso = 0;
@@ -23,11 +24,13 @@ public class FIFO {
         this.tempoTotalDecorrido = 0;
         this.tabelaFinal = new ArrayList<>();
         this.finalizados = 0;
+        this.tab = "";
+        this.firstRun = true;
     }
 
     public void startFIFO(){
-        boolean firstRun = true;
-        String tab = "";
+
+
         while(true){
             if(finalizados >= processos.size())
                 break;
@@ -42,16 +45,8 @@ public class FIFO {
 
 
                 processosAtivos.get(0).diminuiTempoRestante();
+                checaSeProcessoDeveSair();
 
-                if (processosAtivos.get(0).getTempoAtendimentoRestante() == 0){
-                    processosAtivos.get(0).setTempoSaida(tempoAtual);
-                    tab += (processosAtivos.get(0).getId() + "     " + processosAtivos.get(0).getTempoEntradaProcessador() + "     " + (processosAtivos.get(0).getTempoSaida() + 1));
-                    tabelaFinal.add(tab);
-                    tab = "";
-                    processosAtivos.remove(0);
-                    firstRun = true;
-                    finalizados++;
-                }
             }
             tempoAtual ++;
         }
@@ -60,6 +55,17 @@ public class FIFO {
 
     }
 
+    protected void checaSeProcessoDeveSair(){
+        if (processosAtivos.get(0).getTempoAtendimentoRestante() == 0){
+            processosAtivos.get(0).setTempoSaida(tempoAtual);
+            tab += (processosAtivos.get(0).getId() + "     " + processosAtivos.get(0).getTempoEntradaProcessador() + "     " + (processosAtivos.get(0).getTempoSaida() + 1));
+            tabelaFinal.add(tab);
+            tab = "";
+            processosAtivos.remove(0);
+            firstRun = true;
+            finalizados++;
+        }
+    }
     protected void verificaSeTemNovoProcesso(){
         boolean flag = true;
         for (Processo p: processos) { // Se o processo chegou ele é adicionado a lista de processos ativos

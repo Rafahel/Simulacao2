@@ -38,17 +38,20 @@ public class Main {
 //                    processos = geradorManual4();
                     RoundRobin roundRobin = new RoundRobin(quantum, processos);
                     roundRobin.startRoundRobin();
+
                 }
+                break;
             case "2": // FIFO
                 for (int i = 0; i < rodadas; i++) {
-                    processos = criaProcessos(quantidade);
-//                    processos = geradorManual1();
+//                    processos = criaProcessos(quantidade);
+                    processos = geradorManual1();
 //                    processos = geradorManual2();
 //                    processos = geradorManual3();
 //                    processos = geradorManual4();
                     FIFO fifo = new FIFO(processos);
                     fifo.startFIFO();
                 }
+                break;
             case "3": // LIFO
                 for (int i = 0; i < rodadas; i++) {
 //                    processos = criaProcessos(quantidade);
@@ -59,6 +62,7 @@ public class Main {
                     LIFO lifo = new LIFO(processos);
                     lifo.startLIFO();
                 }
+                break;
 
 
         }

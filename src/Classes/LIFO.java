@@ -19,7 +19,6 @@ public class LIFO extends FIFO {
 
     public void startLIFO(){
         novoProcesso = false;
-        boolean firstRun = true;
 
         while(true){
             if (finalizados >= processos.size())
@@ -32,19 +31,9 @@ public class LIFO extends FIFO {
                     processosAtivos.get(0).setTempoEntradaProcessador(tempoAtual);
                     firstRun = false;
                 }
-
                 processosAtivos.get(0).diminuiTempoRestante();
                 idProcessoAtivoAtual = processosAtivos.get(0).getId();
-
-                if (processosAtivos.get(0).getTempoAtendimentoRestante() == 0){
-                    processosAtivos.get(0).setTempoSaida(tempoAtual);
-                    tab += (processosAtivos.get(0).getId() + "     " + processosAtivos.get(0).getTempoEntradaProcessador() + "     " + (processosAtivos.get(0).getTempoSaida() + 1) );
-                    tabelaFinal.add(tab);
-                    tab = "";
-                    processosAtivos.remove(0);
-                    firstRun = true;
-                    finalizados++;
-                }
+                super.checaSeProcessoDeveSair();
             }
 
 
@@ -96,3 +85,14 @@ public class LIFO extends FIFO {
 
 
 }
+
+// Trocado por checaSeProcessoDeveSair()
+//if (processosAtivos.get(0).getTempoAtendimentoRestante() == 0){
+//        processosAtivos.get(0).setTempoSaida(tempoAtual);
+//        tab += (processosAtivos.get(0).getId() + "     " + processosAtivos.get(0).getTempoEntradaProcessador() + "     " + (processosAtivos.get(0).getTempoSaida() + 1) );
+//        tabelaFinal.add(tab);
+//        tab = "";
+//        processosAtivos.remove(0);
+//        firstRun = true;
+//        finalizados++;
+//        }
