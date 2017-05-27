@@ -14,6 +14,7 @@ public class RoundRobin {
     List<String> tabelaFinal;
     List<Processo> processosAtivos;
     int tempoTotalDecorrido;
+    int tempoOcioso;
     public RoundRobin(int quantum, List<Processo> processos) {
         this.tempoAtual = 0;
         this.quantum = quantum;
@@ -21,6 +22,7 @@ public class RoundRobin {
         this.tabelaFinal = new ArrayList<>();
         this.processosAtivos = new ArrayList<>();
         this.tempoTotalDecorrido = 0;
+        this.tempoOcioso = 0;
     }
 
 
@@ -29,13 +31,13 @@ public class RoundRobin {
 
     public void startRoundRobin(){
         int quantidadeProcessos = this.processos.size();
-
+        boolean ocorreuTrocaDeProcesso = false;
         List<Processo> processosTerminados = new ArrayList<>();
         int last = 0;
         int quantumAtual = 0;
         boolean firstRun = true;
         String tab = "";
-        System.out.println("PID   TE   TS");
+//        System.out.println("PID   TE   TS");
         while(true){
             tempoTotalDecorrido++;
             if (quantidadeProcessos == 0){
@@ -47,7 +49,8 @@ public class RoundRobin {
             processosAtivos = verificaSeTemNovoProcesso();
             tempoAtual ++;
 
-
+            if (processosAtivos.size() <= 0)
+                tempoOcioso++;
             if(processosAtivos.size() > 0){
                 /*
                                 Esta parte do código só vai rodar se o numero de processos ativos for maior que 0 (ZERO)
@@ -55,8 +58,9 @@ public class RoundRobin {
                                 Aqui esta sendo feita toda a execução dos processos, troca de contexto e remoção dos mesmos
                 */
 
-                if (processosAtivos.get(0).getId() != last && processosAtivos.get(0).getTempoEntradaProcessador() >= 0){
-                    System.out.println("");
+                if (processosAtivos.get(0).getId() != last && processosAtivos.get(0).getTempoEntradaProcessador() >= 0 || ocorreuTrocaDeProcesso){
+//                    System.out.println("");
+                    ocorreuTrocaDeProcesso = false;
                     if(tab.length() > 0){
                         tabelaFinal.add(tab);
                         tab = "";
@@ -129,6 +133,7 @@ public class RoundRobin {
 //                        System.out.println("ID: " + x.getId());
 //                    }
                     quantumAtual = 0;
+                    ocorreuTrocaDeProcesso = true;
 
                 }
 
@@ -188,6 +193,7 @@ public class RoundRobin {
             System.out.println("          " + x);
 
         }
+        System.out.println("Tempo Ocioso: " + tempoOcioso);
     }
 
 

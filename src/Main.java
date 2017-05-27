@@ -1,3 +1,5 @@
+import Classes.FIFO;
+import Classes.LIFO;
 import Classes.Processo;
 import Classes.RoundRobin;
 
@@ -14,16 +16,54 @@ public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         System.out.print("Numero de processos que devem ser simulados: ");
-        //int quantidade = scan.nextInt();
+        String op = "3";
+        int rodadas = 1;
+        int quantidade = 10;
+//        quantidade = scan.nextInt();
         System.out.print("Quantum: ");
         int quantum = 4;
 //        int quantum = scan.nextInt();
         //List<Processo> processos = criaProcessos(quantidade);
-        List<Processo> processos = geradorManual2();
+        List<Processo> processos;
 //        mostraProcessos(processos);
         System.out.println("\n\n\n");
-        RoundRobin roundRobin = new RoundRobin(quantum, processos);
-        roundRobin.startRoundRobin();
+
+        switch (op){
+            case "1": // ROUND ROBIN
+                for (int i = 0; i < rodadas; i++) {
+                    processos = criaProcessos(quantidade);
+//                    processos = geradorManual1();
+//                    processos = geradorManual2();
+//                    processos = geradorManual3();
+//                    processos = geradorManual4();
+                    RoundRobin roundRobin = new RoundRobin(quantum, processos);
+                    roundRobin.startRoundRobin();
+                }
+            case "2": // FIFO
+                for (int i = 0; i < rodadas; i++) {
+                    processos = criaProcessos(quantidade);
+//                    processos = geradorManual1();
+//                    processos = geradorManual2();
+//                    processos = geradorManual3();
+//                    processos = geradorManual4();
+                    FIFO fifo = new FIFO(processos);
+                    fifo.startFIFO();
+                }
+            case "3": // LIFO
+                for (int i = 0; i < rodadas; i++) {
+//                    processos = criaProcessos(quantidade);
+//                    processos = geradorManual1();
+//                    processos = geradorManual2();
+                    processos = geradorManual3();
+//                    processos = geradorManual4();
+                    LIFO lifo = new LIFO(processos);
+                    lifo.startLIFO();
+                }
+
+
+        }
+
+
 
 
 
@@ -173,6 +213,17 @@ public class Main {
         processos.add(d);
         Processo e = new Processo(5,20,8,2);
         processos.add(e);
+        return processos;
+    }
+    private static List<Processo> geradorManual4(){ // Usar quantum 10
+        List<Processo> processos = new ArrayList<>();
+
+        Processo a = new Processo(1,0,11,2);
+        processos.add(a);
+        Processo b = new Processo(2,15,13,1);
+        processos.add(b);
+        Processo c = new Processo(3,16,9,2);
+        processos.add(c);
         return processos;
     }
 
