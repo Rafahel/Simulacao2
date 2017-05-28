@@ -36,15 +36,13 @@ public class RoundRobin {
             tempoTotalDecorrido++;
             if (quantidadeProcessos == 0){
                 tabelaFinal.add(tab);
-                System.out.println("\nFim da simulação Round Robin.\n\n\n");
                 break;
             }
 
             processosAtivos = verificaSeTemNovoProcesso();
             tempoAtual ++;
 
-            if (processosAtivos.size() <= 0)
-                tempoOcioso++;
+
             if(processosAtivos.size() > 0){
                 /*
                                 Esta parte do código só vai rodar se o numero de processos ativos for maior que 0 (ZERO)
@@ -133,6 +131,9 @@ public class RoundRobin {
 
 
             }
+            else {
+                tempoOcioso++;
+            }
 
         }
 //        mostraStatusProcessosRealizados(processosTerminados);
@@ -156,6 +157,7 @@ public class RoundRobin {
 
 
 
+    @SuppressWarnings("Duplicates")
     private List<Processo> verificaSeTemNovoProcesso(){
         boolean flag = true;
         for (Processo p: processos) { // Se o processo chegou ele é adicionado a lista de processos ativos
@@ -187,7 +189,7 @@ public class RoundRobin {
             System.out.println("          " + x);
 
         }
-        System.out.println("Tempo Ocioso: " + tempoOcioso);
+        System.out.println("Tempo Ocioso: " + tempoOcioso + "\n");
     }
 
 

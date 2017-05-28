@@ -45,6 +45,9 @@ public class FIFO {
                 checaSeProcessoDeveSair();
 
             }
+            else {
+                tempoOcioso++;
+            }
             tempoAtual ++;
         }
         mostraTabelafinal();
@@ -91,7 +94,7 @@ public class FIFO {
             System.out.println("          " + x);
 
         }
-        System.out.println("\nTempo Ocioso: " + tempoOcioso);
+        System.out.println("Tempo Ocioso: " + tempoOcioso + "\n");
     }
 
 

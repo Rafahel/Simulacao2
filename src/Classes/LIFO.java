@@ -33,6 +33,9 @@ public class LIFO extends FIFO {
                 idProcessoAtivoAtual = processosAtivos.get(0).getId();
                 super.checaSeProcessoDeveSair();
             }
+            else {
+                tempoOcioso++;
+            }
             tempoAtual ++;
         }
 
