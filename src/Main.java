@@ -35,7 +35,7 @@ public class Main {
                     tempoOcioso += roundRobin.getTempoOcioso();
 
                 }
-                System.out.println("Tempo ocioso medio RR: " + tempoOcioso/rodadas);
+                System.out.println("Tempo ocioso medio RR: " + tempoOcioso/rodadas + "\n");
                 tempoOcioso = 0;
 //                break;
             case "2": // FIFO
@@ -51,7 +51,7 @@ public class Main {
                     fifo.start();
                     tempoOcioso += fifo.getTempoOcioso();
                 }
-                System.out.println("Tempo ocioso medio FIFO: " + tempoOcioso/rodadas);
+                System.out.println("Tempo ocioso medio FIFO: " + tempoOcioso/rodadas + "\n");
                 tempoOcioso = 0;
 //                break;
             case "3": // LIFO
@@ -67,7 +67,7 @@ public class Main {
                     lifo.start();
                     tempoOcioso += lifo.getTempoOcioso();
                 }
-                System.out.println("Tempo ocioso medio LIFO: " + tempoOcioso/rodadas);
+                System.out.println("Tempo ocioso medio LIFO: " + tempoOcioso/rodadas + "\n");
                 tempoOcioso = 0;
 //                break;
             case "4": // Preemptivo
@@ -83,7 +83,7 @@ public class Main {
                     preemptivo.start();
                     tempoOcioso += preemptivo.getTempoOcioso();
                 }
-                System.out.println("Tempo ocioso medio Preemptivo: " + tempoOcioso/rodadas);
+                System.out.println("Tempo ocioso medio Preemptivo: " + tempoOcioso/rodadas + "\n");
 //                break;
         }
 
