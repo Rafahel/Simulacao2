@@ -2,7 +2,7 @@ import Classes.*;
 
 import java.util.*;
 
-
+@SuppressWarnings("ALL")
 public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
@@ -67,7 +67,7 @@ public class Main {
                     lifo.start();
                     tempoOcioso += lifo.getTempoOcioso();
                 }
-                System.out.println("Tempo ocioso medio RR: " + tempoOcioso/rodadas);
+                System.out.println("Tempo ocioso medio LIFO: " + tempoOcioso/rodadas);
                 tempoOcioso = 0;
 //                break;
             case "4": // Preemptivo
@@ -83,7 +83,7 @@ public class Main {
                     preemptivo.start();
                     tempoOcioso += preemptivo.getTempoOcioso();
                 }
-                System.out.println("Tempo ocioso medio RR: " + tempoOcioso/rodadas);
+                System.out.println("Tempo ocioso medio Preemptivo: " + tempoOcioso/rodadas);
 //                break;
         }
 
