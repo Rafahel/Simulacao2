@@ -39,9 +39,8 @@ public class RoundRobin {
                 break;
             }
 
-            processosAtivos = verificaSeTemNovoProcesso();
+            verificaSeTemNovoProcesso();
             tempoAtual ++;
-
 
             if(processosAtivos.size() > 0){
                 /*
@@ -49,7 +48,6 @@ public class RoundRobin {
 
                                 Aqui esta sendo feita toda a execução dos processos, troca de contexto e remoção dos mesmos
                 */
-
                 if (processosAtivos.get(0).getId() != last && processosAtivos.get(0).getTempoEntradaProcessador() >= 0 || ocorreuTrocaDeProcesso){
 //                    System.out.println("");
                     ocorreuTrocaDeProcesso = false;
@@ -114,10 +112,8 @@ public class RoundRobin {
                     if (processosAtivos.get(0).getTempoAtendimentoRestante() > 0){
 //                        System.out.println("Processo " + processosAtivos.get(0).getId() + " indo para o final da fila falntando: " + processosAtivos.get(0).getTempoAtendimentoRestante());
                         processosAtivos.get(0).setTempoSaida(tempoAtual);
-                        processosAtivos = verificaSeTemNovoProcesso();
                         processosAtivos.add(processosAtivos.get(0));
-
-
+                        verificaSeTemNovoProcesso();
                     }
 //                    System.out.print("    " + tempoAtual);
                     tab+= ("    " + tempoAtual);
@@ -139,9 +135,11 @@ public class RoundRobin {
                 tempoOcioso++;
             }
 
+
         }
 //        mostraStatusProcessosRealizados(processosTerminados);
         mostraTabelafinal();
+
 //        System.out.println("Tempo total: " + tempoAtual);
     }
 
@@ -162,7 +160,7 @@ public class RoundRobin {
 
 
     @SuppressWarnings("Duplicates")
-    private List<Processo> verificaSeTemNovoProcesso(){
+    private void verificaSeTemNovoProcesso(){
         boolean flag = true;
         for (Processo p: processos) { // Se o processo chegou ele é adicionado a lista de processos ativos
 //                System.out.println("Tempo atual " + tempoAtual );
@@ -183,13 +181,9 @@ public class RoundRobin {
             flag = true;
 
         }
-        return processosAtivos;
-    }
-
-    private void formataEadc(){
-
 
     }
+
 
     private void mostraTabelafinal(){
         Formatter fmt = new Formatter();
