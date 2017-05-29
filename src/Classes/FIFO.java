@@ -1,8 +1,9 @@
 package Classes;
 
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
-
+@SuppressWarnings("ALL")
 public class FIFO {
     protected List<Processo> processos;
     protected int tempoOcioso;
@@ -25,9 +26,7 @@ public class FIFO {
         this.firstRun = true;
     }
 
-    public void startFIFO(){
-
-        System.out.println("Inciando FIFO");
+    public void start(){
         while(true){
             if(finalizados >= processos.size())
                 break;
@@ -51,7 +50,6 @@ public class FIFO {
             tempoAtual ++;
         }
         mostraTabelafinal();
-
 
     }
 
@@ -88,14 +86,16 @@ public class FIFO {
     }
 
     protected void mostraTabelafinal(){
-        System.out.println("          PID   TE   TS");
-        System.out.println("          -------------");
-        for (String x: tabelaFinal) {
-            System.out.println("          " + x);
-
+        Formatter fmt = new Formatter();
+        fmt.format("%5s   %5s   %5s\n", "PID", "TE", "TS");
+        for (String a: tabelaFinal) {
+            fmt.format("%5s   %5s   %5s\n", a.split("\\s+")[0], a.split("\\s+")[1], a.split("\\s+")[2]);
         }
+        System.out.println(fmt);
         System.out.println("Tempo Ocioso: " + tempoOcioso + "\n");
     }
 
-
+    public int getTempoOcioso() {
+        return tempoOcioso;
+    }
 }

@@ -2,8 +2,10 @@ package Classes;
 
 
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class RoundRobin {
     private int tempoAtual;
     private final int  quantum;
@@ -21,9 +23,7 @@ public class RoundRobin {
         this.tempoTotalDecorrido = 0;
         this.tempoOcioso = 0;
     }
-
-    public void startRoundRobin(){
-        System.out.println("Iniciando Round Robin");
+    public void start(){
         int quantidadeProcessos = this.processos.size();
         boolean ocorreuTrocaDeProcesso = false;
         List<Processo> processosTerminados = new ArrayList<>();
@@ -59,6 +59,7 @@ public class RoundRobin {
                     }
                     if(firstRun){
                         processosAtivos.get(0).setTempoEntradaProcessador(processosAtivos.get(0).getTempoEntradaProcessador() - 1);
+                        processosAtivos.get(0).setTempoFila(processosAtivos.get(0).getTempoEntradaProcessador() - processosAtivos.get(0).getTempoCriacao());
                         firstRun = false;
                     }
 
@@ -73,6 +74,7 @@ public class RoundRobin {
                 if (processosAtivos.get(0).getTempoAtendimentoRestante() > 0){
                     if (processosAtivos.get(0).getTempoEntradaProcessador() == -1){
                         processosAtivos.get(0).setTempoEntradaProcessador(tempoAtual);
+                        processosAtivos.get(0).setTempoFila(processosAtivos.get(0).getTempoEntradaProcessador() - processosAtivos.get(0).getTempoCriacao());
 //                        System.out.println("Tempo de entrada do processo " + processosAtivos.get(0).getId() + " = " + (processosAtivos.get(0).getTempoEntradaProcessador() - 1));
                     }
                     processosAtivos.get(0).diminuiTempoRestante();
@@ -90,6 +92,7 @@ public class RoundRobin {
                     processosAtivos.remove(0);
                     try{
                         processosAtivos.get(0).setTempoEntradaProcessador(tempoAtual);
+                        processosAtivos.get(0).setTempoFila(processosAtivos.get(0).getTempoEntradaProcessador() - processosAtivos.get(0).getTempoCriacao());
                     }catch (IndexOutOfBoundsException e){
 
                     }
@@ -120,6 +123,7 @@ public class RoundRobin {
                     tab+= ("    " + tempoAtual);
                     processosAtivos.remove(0);
                     processosAtivos.get(0).setTempoEntradaProcessador(tempoAtual);
+                    processosAtivos.get(0).setTempoFila(processosAtivos.get(0).getTempoEntradaProcessador() - processosAtivos.get(0).getTempoCriacao());
 //                    System.out.println("Mostrando processos da fila de processos ativos");
 //                    for (Processo x: processosAtivos) {
 //                        System.out.println("ID: " + x.getId());
@@ -182,15 +186,22 @@ public class RoundRobin {
         return processosAtivos;
     }
 
-    private void mostraTabelafinal(){
-        System.out.println("          PID   TE   TS");
-        System.out.println("          -------------");
-        for (String x: tabelaFinal) {
-            System.out.println("          " + x);
+    private void formataEadc(){
 
+
+    }
+
+    private void mostraTabelafinal(){
+        Formatter fmt = new Formatter();
+        fmt.format("%5s   %5s   %5s\n", "PID", "TE", "TS");
+        for (String a: tabelaFinal) {
+            fmt.format("%5s   %5s   %5s\n", a.split("\\s+")[0], a.split("\\s+")[1], a.split("\\s+")[2]);
         }
+        System.out.println(fmt);
         System.out.println("Tempo Ocioso: " + tempoOcioso + "\n");
     }
 
-
+    public int getTempoOcioso() {
+        return tempoOcioso;
+    }
 }

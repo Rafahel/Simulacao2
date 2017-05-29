@@ -6,12 +6,10 @@ public class Preemptivo extends FIFO {
     private int idProcessoAtivoAtual;
     public Preemptivo(List<Processo> processos) {
         super(processos);
-        startPreemptivo();
-        this.idProcessoAtivoAtual = -1;
-    }
 
-    private void startPreemptivo(){
-        System.out.println("Iniciando Preemptivo");
+    }
+    @Override
+    public void start(){
         while (true){
             if (finalizados >= processos.size()){
                 break;

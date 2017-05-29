@@ -1,13 +1,7 @@
 import Classes.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
-/**
- * Created by Rafahel on 26/05/2017.
- */
 
 public class Main {
     public static void main(String[] args) {
@@ -24,52 +18,72 @@ public class Main {
         List<Processo> processos;
 //        mostraProcessos(processos);
         System.out.println("\n\n\n");
-
+        double tempoOcioso = 0;
+//        processos = criaProcessos(quantidade);
         switch (op){
             case "1": // ROUND ROBIN
                 for (int i = 0; i < rodadas; i++) {
-//                    processos = criaProcessos(quantidade);
+                    System.out.println("Iniciando Round Robin\n\t\tTABELA DE PROCESSOS");
 //                    processos = geradorManual1();
 //                    processos = geradorManual2();
                     processos = geradorManual3();
 //                    processos = geradorManual4();
+                    mostraProcessos(processos);
+                    System.out.println("--------------------------------------\n\t\tTABELA FINAL CPU\n");
                     RoundRobin roundRobin = new RoundRobin(quantum, processos);
-                    roundRobin.startRoundRobin();
+                    roundRobin.start();
+                    tempoOcioso += roundRobin.getTempoOcioso();
 
                 }
+                System.out.println("Tempo ocioso medio RR: " + tempoOcioso/rodadas);
+                tempoOcioso = 0;
 //                break;
             case "2": // FIFO
                 for (int i = 0; i < rodadas; i++) {
-//                    processos = criaProcessos(quantidade);
+                    System.out.println("\t\t  Iniciando FIFO\n\t\tTABELA DE PROCESSOS");
 //                    processos = geradorManual1();
 //                    processos = geradorManual2();
                     processos = geradorManual3();
 //                    processos = geradorManual4();
+                    mostraProcessos(processos);
+                    System.out.println("--------------------------------------\n\t\tTABELA FINAL CPU\n");
                     FIFO fifo = new FIFO(processos);
-                    fifo.startFIFO();
+                    fifo.start();
+                    tempoOcioso += fifo.getTempoOcioso();
                 }
+                System.out.println("Tempo ocioso medio FIFO: " + tempoOcioso/rodadas);
+                tempoOcioso = 0;
 //                break;
             case "3": // LIFO
                 for (int i = 0; i < rodadas; i++) {
-//                    processos = criaProcessos(quantidade);
+                    System.out.println("\t\t  Iniciando LIFO\n\t\tTABELA DE PROCESSOS");
 //                    processos = geradorManual1();
 //                    processos = geradorManual2();
                     processos = geradorManual3();
 //                    processos = geradorManual4();
+                    mostraProcessos(processos);
                     LIFO lifo = new LIFO(processos);
-                    lifo.startLIFO();
+                    System.out.println("--------------------------------------\n\t\tTABELA FINAL CPU\n");
+                    lifo.start();
+                    tempoOcioso += lifo.getTempoOcioso();
                 }
+                System.out.println("Tempo ocioso medio RR: " + tempoOcioso/rodadas);
+                tempoOcioso = 0;
 //                break;
             case "4": // Preemptivo
                 for (int i = 0; i < rodadas; i++) {
-//                    processos = criaProcessos(quantidade);
+                    System.out.println("\t   Iniciando Preemptivo\n\t\tTABELA DE PROCESSOS");
 //                    processos = geradorManual1();
 //                    processos = geradorManual2();
                     processos = geradorManual3();
 //                    processos = geradorManual4();
+                    mostraProcessos(processos);
+                    System.out.println("--------------------------------------\n\t\tTABELA FINAL CPU\n");
                     Preemptivo preemptivo = new Preemptivo(processos);
-
+                    preemptivo.start();
+                    tempoOcioso += preemptivo.getTempoOcioso();
                 }
+                System.out.println("Tempo ocioso medio RR: " + tempoOcioso/rodadas);
 //                break;
         }
 
@@ -138,7 +152,7 @@ public class Main {
     }
 
     private static int calcularPrioridadeX(int totalDeClientes, int prioridadeAtual){
-        int total = 0;
+        int total;
         double porcentagem = (double)prioridadeAtual / 100;
 //        System.out.println("Total = "  + porcentagem * totalDeClientes);
         total = (int)Math.round(porcentagem * totalDeClientes);
@@ -148,26 +162,16 @@ public class Main {
 
     private static int randomPrioridade(){
         Random rand = new Random();
-        int randomNumber = rand.nextInt(4) + 1;
-//        System.out.println("random prioridade gerado: ");
-        return randomNumber;
+        return rand.nextInt(4) + 1;
     }
 
     private static void mostraProcessos(List<Processo> processos){
-        for (int i = 0; i < processos.size(); i++) {
-            System.out.println("ID: " + processos.get(i).getId());
-            System.out.println("PRIORIDADE: " + processos.get(i).getPrioridade());
-            System.out.println("Tempo de chegada: " + processos.get(i).getTempoCriacao());
-            System.out.println("Tempo de atendimento: " + processos.get(i).getTempoAtendimentoOriginal());
-            System.out.println("Tempo de atendimento restante: " + processos.get(i).getTempoAtendimentoRestante());
-            System.out.println("Tempo de saída: " + processos.get(i).getTempoSaida());
-            if (processos.get(i).getPrioridade() == 0){ // Teste para saber se deu algum erro e colocou prioridade 0
-                System.out.println("ERRO DE PRIORIDADE: PROCESSO ID " + processos.get(i).getId() + " APRESENTA ERRO.");
-                break;
-            }
-            System.out.println("-----------------------------------------------");
+        Formatter fmt = new Formatter();
+        fmt.format("%5s %7s %7s %10s", "PID","TC", "TA", "PRIO\n");
+        for (Processo p: processos) {
+            fmt.format("%5d   %5d   %5d   %5d\n" , p.getId(), p.getTempoCriacao(), p.getTempoAtendimentoOriginal(), p.getPrioridade());
         }
-
+        System.out.println(fmt);
     }
 
     private static List<Processo> geradorManual1(){

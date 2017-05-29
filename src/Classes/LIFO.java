@@ -3,28 +3,21 @@ package Classes;
 import java.util.List;
 
 public class LIFO extends FIFO {
-    private boolean novoProcesso;
-    private String tab;
-    private int last;
     private int idProcessoAtivoAtual;
     public LIFO(List<Processo> processos) {
         super(processos);
         this.tab = "";
-        this.last = -1;
         this.idProcessoAtivoAtual = -1;
     }
 
-    public void startLIFO(){
-        System.out.println("Iniciando LIFO");
-        novoProcesso = false;
-
+    @Override
+    public void start(){
         while(true){
             if (finalizados >= processos.size())
                 break;
             verificaSeTemNovoProcesso();
 
             if (processosAtivos.size() > 0){
-                last = processosAtivos.get(0).getId();
                 if (firstRun){
                     processosAtivos.get(0).setTempoEntradaProcessador(tempoAtual);
                     firstRun = false;
@@ -38,7 +31,6 @@ public class LIFO extends FIFO {
             }
             tempoAtual ++;
         }
-
         super.mostraTabelafinal();
     }
 
@@ -68,7 +60,6 @@ public class LIFO extends FIFO {
                         }
                     }
                     processosAtivos.add(p);
-                    novoProcesso = true;
                     if (p.getTempoCriacao() > tempoAtual){
                         break;
                     }

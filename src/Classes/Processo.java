@@ -1,8 +1,6 @@
 package Classes;
 
-/**
- * Created by Rafahel on 26/05/2017.
- */
+@SuppressWarnings("ALL")
 public class Processo {
     private int id;
     private int tempoCriacao;
