@@ -6,7 +6,6 @@ public class LIFO extends FIFO {
     private int idProcessoAtivoAtual;
     public LIFO(List<Processo> processos) {
         super(processos);
-        this.tab = "";
         this.idProcessoAtivoAtual = -1;
     }
 
@@ -20,6 +19,11 @@ public class LIFO extends FIFO {
             if (processosAtivos.size() > 0){
                 if (firstRun){
                     processosAtivos.get(0).setTempoEntradaProcessador(tempoAtual);
+                    if (processosAtivos.get(0).getTempoCriacao() == tempoAtual )
+                        processosAtivos.get(0).setTempoFila(0);
+                    else
+                        processosAtivos.get(0).setTempoFila(tempoAtual - processosAtivos.get(0).getTempoCriacao());
+
                     firstRun = false;
                 }
                 processosAtivos.get(0).diminuiTempoRestante();
@@ -46,12 +50,14 @@ public class LIFO extends FIFO {
             }
             if (flag){
                 if (p.getTempoCriacao() == tempoAtual){
-                    p.setTempoFila(tempoTotalDecorrido - p.getTempoCriacao());
+                    p.setTempoFila(++tempoSaidaAnterior - p.getTempoCriacao());
                     if (processosAtivos.size() >= 1){
                         for (int i = 0; i < processosAtivos.size() ; i++) {
                             if (processosAtivos.get(i).getId() != idProcessoAtivoAtual){
                                 if (p.getId() > processosAtivos.get(i).getId()){
 //                                    System.out.println("ID: " + processosAtivos.get(i).getId() + "Substituida por ID: " + p.getId());
+                                    p.setTempoFila(++tempoSaidaAnterior - p.getTempoCriacao());
+                                    tempoSaidaAnterior = tempoAtual;
                                     processosAtivos.add(i, p);
                                     break;
                                 }
@@ -59,6 +65,7 @@ public class LIFO extends FIFO {
 
                         }
                     }
+                    tempoSaidaAnterior = tempoAtual;
                     processosAtivos.add(p);
                     if (p.getTempoCriacao() > tempoAtual){
                         break;
@@ -70,15 +77,5 @@ public class LIFO extends FIFO {
     }
 
 
-}
 
-// Trocado por checaSeProcessoDeveSair()
-//if (processosAtivos.get(0).getTempoAtendimentoRestante() == 0){
-//        processosAtivos.get(0).setTempoSaida(tempoAtual);
-//        tab += (processosAtivos.get(0).getId() + "     " + processosAtivos.get(0).getTempoEntradaProcessador() + "     " + (processosAtivos.get(0).getTempoSaida() + 1) );
-//        tabelaFinal.add(tab);
-//        tab = "";
-//        processosAtivos.remove(0);
-//        firstRun = true;
-//        finalizados++;
-//        }
+}

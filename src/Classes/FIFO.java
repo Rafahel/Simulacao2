@@ -10,20 +10,21 @@ public class FIFO {
     protected int tempoAtual;
     protected List<Processo> processosAtivos;
     protected int tempoTotalDecorrido;
-    protected List<String> tabelaFinal;
     protected int finalizados;
-    protected String tab;
     protected  boolean firstRun;
+    protected List<ResultadosFinais> resultados;
+    protected int tempoSaidaAnterior;
     public FIFO(List<Processo> processos) {
         this.processos = processos;
         this.tempoOcioso = 0;
         this.tempoAtual = 0;
         this.processosAtivos = new ArrayList<>();
         this.tempoTotalDecorrido = 0;
-        this.tabelaFinal = new ArrayList<>();
         this.finalizados = 0;
-        this.tab = "";
         this.firstRun = true;
+        this.resultados = new ArrayList<>();
+        this.tempoSaidaAnterior = 0;
+
     }
 
     public void start(){
@@ -56,10 +57,16 @@ public class FIFO {
     protected void checaSeProcessoDeveSair(){
         if (processosAtivos.get(0).getTempoAtendimentoRestante() == 0){
             processosAtivos.get(0).setTempoSaida(tempoAtual);
-            tab += (processosAtivos.get(0).getId() + "     " + processosAtivos.get(0).getTempoEntradaProcessador() + "     " + (processosAtivos.get(0).getTempoSaida() + 1));
-            tabelaFinal.add(tab);
-            tab = "";
+            ResultadosFinais rf = new ResultadosFinais(processosAtivos.get(0).getId(), processosAtivos.get(0).getTempoCriacao(), processosAtivos.get(0).getTempoEntradaProcessador(),
+                    processosAtivos.get(0).getTempoFila(), processosAtivos.get(0).getTempoSaida() + 1);
+            resultados.add(rf);
+            tempoSaidaAnterior = tempoAtual;
             processosAtivos.remove(0);
+            if (processosAtivos.size() > 0){
+                processosAtivos.get(0).setTempoFila((tempoAtual - processosAtivos.get(0).getTempoCriacao()) + 1);
+                if (processosAtivos.get(0).getTempoCriacao() == tempoAtual) // TODO Verificar no LIfo se fica negativo
+                    processosAtivos.get(0).setTempoFila(0);
+            }
             firstRun = true;
             finalizados++;
         }
@@ -74,7 +81,6 @@ public class FIFO {
             }
             if (flag){
                 if (p.getTempoCriacao() == tempoAtual){
-                    p.setTempoFila(tempoTotalDecorrido - p.getTempoCriacao());
                     processosAtivos.add(p);
                     if (p.getTempoCriacao() > tempoAtual){
                         break;
@@ -86,13 +92,25 @@ public class FIFO {
     }
 
     protected void mostraTabelafinal(){
+//        Formatter fmt = new Formatter();
+//        fmt.format("%5s   %5s   %5s\n", "PID", "TE", "TS");
+//        for (String a: tabelaFinal) {
+//            fmt.format("%5s   %5s   %5s\n", a.split("\\s+")[0], a.split("\\s+")[1], a.split("\\s+")[2]);
+//        }
+//        System.out.println(fmt);
+//        System.out.println("Tempo Ocioso: " + tempoOcioso + "\n");
+        mostraResultados();
+    }
+
+    private void mostraResultados(){
+        System.out.println("TESTE TAB RESULTADOS");
         Formatter fmt = new Formatter();
-        fmt.format("%5s   %5s   %5s\n", "PID", "TE", "TS");
-        for (String a: tabelaFinal) {
-            fmt.format("%5s   %5s   %5s\n", a.split("\\s+")[0], a.split("\\s+")[1], a.split("\\s+")[2]);
+        fmt.format("%5s   %5s   %5s   %5s   %5s\n", "PID", "TC", "TE", "TF", "TS");
+        for (ResultadosFinais rf: resultados) {
+            fmt.format("%5s   %5s   %5s   %5s   %5s\n", rf.getId(), rf.getTempoCriacao(), rf.getTempoEntrada(), rf.getTempoFila(), rf.getTempoSaida());
+
         }
         System.out.println(fmt);
-        System.out.println("Tempo Ocioso: " + tempoOcioso + "\n");
     }
 
     public int getTempoOcioso() {

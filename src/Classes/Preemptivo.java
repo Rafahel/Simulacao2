@@ -27,22 +27,18 @@ public class Preemptivo extends FIFO {
                 if (processosAtivos.get(0).getTempoAtendimentoRestante() == 0){
 //                    System.out.println("PRocesso ID: " + processosAtivos.get(0).getId() + " Finalizado" + " Tempo atual: " + tempoAtual);
                     processosAtivos.get(0).setTempoSaida(tempoAtual);
-                    tab += (processosAtivos.get(0).getId() + "     " + processosAtivos.get(0).getTempoEntradaProcessador() + "     " + (processosAtivos.get(0).getTempoSaida() + 1));
-                    tabelaFinal.add(tab);
+                    processosAtivos.get(0).setTempoFila(processosAtivos.get(0).getTempoEntradaProcessador() - processosAtivos.get(0).getTempoCriacao());
+
+                    ResultadosFinais rf = new ResultadosFinais(processosAtivos.get(0).getId(), processosAtivos.get(0).getTempoCriacao(), processosAtivos.get(0).getTempoEntradaProcessador(),
+                            processosAtivos.get(0).getTempoFila(), processosAtivos.get(0).getTempoSaida() + 1);
+                    resultados.add(rf);
                     processosAtivos.remove(0);
-                    try {
+                    if (processosAtivos.size() > 0){
                         processosAtivos.get(0).setTempoEntradaProcessador(tempoAtual + 1);
-                    }catch (IndexOutOfBoundsException e){
-
                     }
-                    tab = "";
 //                    System.out.println("total restante de processos: " + processosAtivos.size());
-
                     finalizados++;
-
                 }
-
-
             }
             else {
                 tempoOcioso++;
@@ -65,19 +61,19 @@ public class Preemptivo extends FIFO {
             }
             if (flag){
                 if (p.getTempoCriacao() == tempoAtual){
-                    p.setTempoFila(tempoTotalDecorrido - p.getTempoCriacao());
 //                    System.out.println("ID: " + p.getId() + " Prioridade: " + p.getPrioridade());
                     if (processosAtivos.size() > 0){
                         if (p.getPrioridade() < processosAtivos.get(0).getPrioridade()){
 //                            System.out.println("ID: " + processosAtivos.get(0).getId() + " Prioridade: " + processosAtivos.get(0).getPrioridade() + " Trocado por " + "ID: " + p.getId() + " Prioridade: " + p.getPrioridade());
                             processosAtivos.get(0).setTempoSaida(tempoAtual);
-                            tab += (processosAtivos.get(0).getId() + "     " + processosAtivos.get(0).getTempoEntradaProcessador() + "     " + (processosAtivos.get(0).getTempoSaida()));
-                            tabelaFinal.add(tab);
-                            tab = "";
+                            ResultadosFinais rf = new ResultadosFinais(processosAtivos.get(0).getId(), processosAtivos.get(0).getTempoCriacao(), processosAtivos.get(0).getTempoEntradaProcessador(),
+                                    processosAtivos.get(0).getTempoFila(), processosAtivos.get(0).getTempoSaida());
+                            resultados.add(rf);
                             Processo processo = processosAtivos.get(0);
 //                            System.out.println(" --> Processo ID: " + p.getId() + " adicionado aos ativos no tempo: " + tempoAtual);
-                            processosAtivos.get(0).setTempoSaida(tempoAtual);
 
+                            processosAtivos.get(0).setTempoSaida(tempoAtual);
+                            processosAtivos.get(0).setTempoCriacao(tempoAtual);
                             processosAtivos.add(0, p);
 
                             return;
@@ -91,11 +87,14 @@ public class Preemptivo extends FIFO {
                                     continue;
                                 }
                                 if (processosAtivos.get(processosAtivos.size() - 1).getPrioridade() < processosAtivos.get(i).getPrioridade()){
-                                    processosAtivos.get(processosAtivos.size() - 1).setTempoEntradaProcessador(tempoAtual);
+//                                    processosAtivos.get(processosAtivos.size() - 1).setTempoEntradaProcessador(tempoAtual);  REMOVIDO
+
                                     processosAtivos.add(i, processosAtivos.get(processosAtivos.size() - 1));
 //                                    System.out.println("Removendo processo repetido ID: " + processosAtivos.get(processosAtivos.size() - 1).getId());
 
                                     processosAtivos.remove(processosAtivos.size() - 1);
+
+
                                 }
                             }
 
@@ -124,7 +123,10 @@ public class Preemptivo extends FIFO {
                 Processo aux = processosAtivos.get(i);
                 processosAtivos.add(i+1, aux);
                 aux.setTempoSaida(tempoAtual);
+//                aux.setTempoCriacao(tempoAtual);
+
                 processosAtivos.add(aux);
+
                 processosAtivos.remove(i);
             }
 
