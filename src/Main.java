@@ -26,8 +26,8 @@ public class Main {
                     System.out.println("Iniciando Round Robin\n\t\tTABELA DE PROCESSOS");
 //                    processos = geradorManual1();
 //                    processos = geradorManual2();
-                    processos = geradorManual3();
-//                    processos = geradorManual4();
+//                    processos = geradorManual3();
+                    processos = geradorManual4();
                     mostraProcessos(processos);
                     System.out.println("--------------------------------------\n\t\tTABELA FINAL CPU\n");
                     RoundRobin roundRobin = new RoundRobin(quantum, processos);
@@ -43,8 +43,8 @@ public class Main {
                     System.out.println("\t\t  Iniciando FIFO\n\t\tTABELA DE PROCESSOS");
 //                    processos = geradorManual1();
 //                    processos = geradorManual2();
-                    processos = geradorManual3();
-//                    processos = geradorManual4();
+//                    processos = geradorManual3();
+                    processos = geradorManual4();
                     mostraProcessos(processos);
                     System.out.println("--------------------------------------\n\t\tTABELA FINAL CPU\n");
                     FIFO fifo = new FIFO(processos);
@@ -59,8 +59,8 @@ public class Main {
                     System.out.println("\t\t  Iniciando LIFO\n\t\tTABELA DE PROCESSOS");
 //                    processos = geradorManual1();
 //                    processos = geradorManual2();
-                    processos = geradorManual3();
-//                    processos = geradorManual4();
+//                    processos = geradorManual3();
+                    processos = geradorManual4();
                     mostraProcessos(processos);
                     LIFO lifo = new LIFO(processos);
                     System.out.println("--------------------------------------\n\t\tTABELA FINAL CPU\n");
@@ -75,8 +75,8 @@ public class Main {
                     System.out.println("\t   Iniciando Preemptivo\n\t\tTABELA DE PROCESSOS");
 //                    processos = geradorManual1();
 //                    processos = geradorManual2();
-                    processos = geradorManual3();
-//                    processos = geradorManual4();
+//                    processos = geradorManual3();
+                    processos = geradorManual4();
                     mostraProcessos(processos);
                     System.out.println("--------------------------------------\n\t\tTABELA FINAL CPU\n");
                     Preemptivo preemptivo = new Preemptivo(processos);

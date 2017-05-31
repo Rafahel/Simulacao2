@@ -30,7 +30,7 @@ public class Preemptivo extends FIFO {
                     processosAtivos.get(0).setTempoFila(processosAtivos.get(0).getTempoEntradaProcessador() - processosAtivos.get(0).getTempoCriacao());
 
                     ResultadosFinais rf = new ResultadosFinais(processosAtivos.get(0).getId(), processosAtivos.get(0).getTempoCriacao(), processosAtivos.get(0).getTempoEntradaProcessador(),
-                            processosAtivos.get(0).getTempoFila(), processosAtivos.get(0).getTempoSaida() + 1);
+                            processosAtivos.get(0).getTempoFila(), processosAtivos.get(0).getTempoSaida() + 1, processosAtivos.get(0).getPrioridade());
                     resultados.add(rf);
                     processosAtivos.remove(0);
                     if (processosAtivos.size() > 0){
@@ -67,7 +67,7 @@ public class Preemptivo extends FIFO {
 //                            System.out.println("ID: " + processosAtivos.get(0).getId() + " Prioridade: " + processosAtivos.get(0).getPrioridade() + " Trocado por " + "ID: " + p.getId() + " Prioridade: " + p.getPrioridade());
                             processosAtivos.get(0).setTempoSaida(tempoAtual);
                             ResultadosFinais rf = new ResultadosFinais(processosAtivos.get(0).getId(), processosAtivos.get(0).getTempoCriacao(), processosAtivos.get(0).getTempoEntradaProcessador(),
-                                    processosAtivos.get(0).getTempoFila(), processosAtivos.get(0).getTempoSaida());
+                                    processosAtivos.get(0).getTempoFila(), processosAtivos.get(0).getTempoSaida(), processosAtivos.get(0).getPrioridade());
                             resultados.add(rf);
                             Processo processo = processosAtivos.get(0);
 //                            System.out.println(" --> Processo ID: " + p.getId() + " adicionado aos ativos no tempo: " + tempoAtual);

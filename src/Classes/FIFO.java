@@ -58,7 +58,7 @@ public class FIFO {
         if (processosAtivos.get(0).getTempoAtendimentoRestante() == 0){
             processosAtivos.get(0).setTempoSaida(tempoAtual);
             ResultadosFinais rf = new ResultadosFinais(processosAtivos.get(0).getId(), processosAtivos.get(0).getTempoCriacao(), processosAtivos.get(0).getTempoEntradaProcessador(),
-                    processosAtivos.get(0).getTempoFila(), processosAtivos.get(0).getTempoSaida() + 1);
+                    processosAtivos.get(0).getTempoFila(), processosAtivos.get(0).getTempoSaida() + 1, processosAtivos.get(0).getPrioridade());
             resultados.add(rf);
             tempoSaidaAnterior = tempoAtual;
             processosAtivos.remove(0);
@@ -105,9 +105,9 @@ public class FIFO {
     private void mostraResultados(){
         System.out.println("TESTE TAB RESULTADOS");
         Formatter fmt = new Formatter();
-        fmt.format("%5s   %5s   %5s   %5s   %5s\n", "PID", "TC", "TE", "TF", "TS");
+        fmt.format("%5s   %5s   %5s   %5s   %5s   %5s\n", "PID", "TC", "TE", "TF", "TS", "PRIO");
         for (ResultadosFinais rf: resultados) {
-            fmt.format("%5s   %5s   %5s   %5s   %5s\n", rf.getId(), rf.getTempoCriacao(), rf.getTempoEntrada(), rf.getTempoFila(), rf.getTempoSaida());
+            fmt.format("%5s   %5s   %5s   %5s   %5s   %5s\n", rf.getId(), rf.getTempoCriacao(), rf.getTempoEntrada(), rf.getTempoFila(), rf.getTempoSaida(), rf.getPrioridade());
 
         }
         System.out.println(fmt);
