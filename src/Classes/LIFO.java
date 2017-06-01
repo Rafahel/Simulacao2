@@ -10,7 +10,7 @@ public class LIFO extends FIFO {
     }
 
     @Override
-    public void start(){
+    public int start(){
         while(true){
             if (finalizados >= processos.size())
                 break;
@@ -35,7 +35,9 @@ public class LIFO extends FIFO {
             }
             tempoAtual ++;
         }
+
         super.mostraTabelafinal();
+        return tempoAtual;
     }
 
 

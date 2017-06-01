@@ -27,7 +27,7 @@ public class FIFO {
 
     }
 
-    public void start(){
+    public int start(){
         while(true){
             if(finalizados >= processos.size())
                 break;
@@ -52,6 +52,7 @@ public class FIFO {
         }
         mostraTabelafinal();
 
+        return tempoAtual;
     }
 
     protected void checaSeProcessoDeveSair(){
