@@ -88,7 +88,7 @@ public class Main {
 //                break;
             case "5": // NPreemptivo
                 for (int i = 0; i < rodadas; i++) {
-                    System.out.println("\t   Iniciando NPreemptivo\n\t\tTABELA DE PROCESSOS");
+                    System.out.println("\t   Iniciando Não Preemptivo\n\t\tTABELA DE PROCESSOS");
 //                    processos = geradorManual1();
 //                    processos = geradorManual2();
                     processos = geradorManual3();
@@ -99,7 +99,7 @@ public class Main {
                     nPreemptivo.start();
                     tempoOcioso += nPreemptivo.getTempoOcioso();
                 }
-                System.out.println("Tempo ocioso medio NPreemptivo: " + tempoOcioso/rodadas + "\n");
+                System.out.println("Tempo ocioso medio Não Preemptivo: " + tempoOcioso/rodadas + "\n");
 //                break;
         }
 
