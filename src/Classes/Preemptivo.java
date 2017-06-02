@@ -4,10 +4,12 @@ import java.util.List;
 @SuppressWarnings("ALL")
 public class Preemptivo extends FIFO {
     private int idProcessoAtivoAtual;
+
     public Preemptivo(List<Processo> processos) {
         super(processos);
 
     }
+
     @Override
     public int start(){
         while (true){
@@ -45,7 +47,7 @@ public class Preemptivo extends FIFO {
             }
             tempoAtual ++;
         }
-        mostraTabelafinal();
+        mostraResultados();
         return tempoAtual;
     }
 
@@ -83,8 +85,6 @@ public class Preemptivo extends FIFO {
 //                                    System.out.println("Removendo processo repetido ID: " + processosAtivos.get(processosAtivos.size() - 1).getId());
 
                                     processosAtivos.remove(processosAtivos.size() - 1);
-
-
                                 }
                             }
 
@@ -127,9 +127,7 @@ public class Preemptivo extends FIFO {
                 processosAtivos.add(i+1, aux);
                 aux.setTempoSaida(tempoAtual);
 //                aux.setTempoCriacao(tempoAtual);
-
                 processosAtivos.add(aux);
-
                 processosAtivos.remove(i);
             }
 
@@ -139,7 +137,6 @@ public class Preemptivo extends FIFO {
                  ) {
                 System.out.println("Tempo Ocioso: " + tempoOcioso + "\n");
             }
-
         }
 
 

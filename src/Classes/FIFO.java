@@ -14,6 +14,7 @@ public class FIFO {
     protected  boolean firstRun;
     protected List<ResultadosFinais> resultados;
     protected int tempoSaidaAnterior;
+
     public FIFO(List<Processo> processos) {
         this.processos = processos;
         this.tempoOcioso = 0;
@@ -24,7 +25,6 @@ public class FIFO {
         this.firstRun = true;
         this.resultados = new ArrayList<>();
         this.tempoSaidaAnterior = 0;
-
     }
 
     public int start(){
@@ -39,18 +39,15 @@ public class FIFO {
                     processosAtivos.get(0).setTempoEntradaProcessador(tempoAtual);
                     firstRun = false;
                 }
-
-
                 processosAtivos.get(0).diminuiTempoRestante();
                 checaSeProcessoDeveSair();
-
             }
             else {
                 tempoOcioso++;
             }
             tempoAtual ++;
         }
-        mostraTabelafinal();
+        mostraResultados();
 
         return tempoAtual;
     }
@@ -92,21 +89,11 @@ public class FIFO {
         }
     }
 
-    protected void mostraTabelafinal(){
-//        Formatter fmt = new Formatter();
-//        fmt.format("%5s   %5s   %5s\n", "PID", "TE", "TS");
-//        for (String a: tabelaFinal) {
-//            fmt.format("%5s   %5s   %5s\n", a.split("\\s+")[0], a.split("\\s+")[1], a.split("\\s+")[2]);
-//        }
-//        System.out.println(fmt);
-//        System.out.println("Tempo Ocioso: " + tempoOcioso + "\n");
-        mostraResultados();
-    }
 
-    private void mostraResultados(){
+    protected void mostraResultados(){
         System.out.println("TESTE TAB RESULTADOS");
         Formatter fmt = new Formatter();
-        fmt.format("%5s   %5s   %5s   %5s   %5s   %5s\n", "PID", "TC", "TE", "TF", "TS", "PRIO");
+        fmt.format("%5s   %5s   %5s   %5s   %5s   %5s\n", "ID", "TC", "TE", "TF", "TS", "PRIO");
         for (ResultadosFinais rf: resultados) {
             fmt.format("%5s   %5s   %5s   %5s   %5s   %5s\n", rf.getId(), rf.getTempoCriacao(), rf.getTempoEntrada(), rf.getTempoFila(), rf.getTempoSaida(), rf.getPrioridade());
 

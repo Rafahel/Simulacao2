@@ -36,7 +36,7 @@ public class LIFO extends FIFO {
             tempoAtual ++;
         }
 
-        super.mostraTabelafinal();
+        mostraResultados();
         return tempoAtual;
     }
 

@@ -14,16 +14,13 @@ public class Main {
 //        System.out.print("Quantum: ");
         int quantum = 4;
 //        int quantum = scan.nextInt();
-        //List<Processo> processos = criaProcessos(quantidade);
         List<Processo> processos;
-//        mostraProcessos(processos);
-        System.out.println("\n\n\n");
         double tempoOcioso = 0;
-//        processos = criaProcessos(quantidade);
         switch (op){
             case "1": // ROUND ROBIN
                 for (int i = 0; i < rodadas; i++) {
-                    System.out.println("Iniciando Round Robin\n\t\tTABELA DE PROCESSOS");
+                    System.out.println(("--------------------------------------\n" +
+                            "Iniciando Round Robin\n\t\tTABELA DE PROCESSOS").replaceAll("-","_"));
 //                    processos = geradorManual1();
 //                    processos = geradorManual2();
                     processos = geradorManual3();
@@ -31,8 +28,7 @@ public class Main {
                     mostraProcessos(processos);
                     System.out.println("--------------------------------------\n\t\tTABELA FINAL CPU\n");
                     RoundRobin roundRobin = new RoundRobin(quantum, processos);
-                    roundRobin.start();
-                    tempoOcioso += roundRobin.getTempoOcioso();
+                    tempoOcioso += roundRobin.start();
 
                 }
                 System.out.println("Tempo ocioso medio RR: " + tempoOcioso/rodadas + "\n");
@@ -40,7 +36,8 @@ public class Main {
 //                break;
             case "2": // FIFO
                 for (int i = 0; i < rodadas; i++) {
-                    System.out.println("\t\t  Iniciando FIFO\n\t\tTABELA DE PROCESSOS");
+                    System.out.println(("--------------------------------------\n\t\t" +
+                            "  Iniciando FIFO\n\t\tTABELA DE PROCESSOS").replaceAll("-","_"));
 //                    processos = geradorManual1();
 //                    processos = geradorManual2();
                     processos = geradorManual3();
@@ -56,7 +53,8 @@ public class Main {
 //                break;
             case "3": // LIFO
                 for (int i = 0; i < rodadas; i++) {
-                    System.out.println("\t\t  Iniciando LIFO\n\t\tTABELA DE PROCESSOS");
+                    System.out.println(("--------------------------------------\n\t\t" +
+                            "  Iniciando LIFO\n\t\tTABELA DE PROCESSOS").replaceAll("-","_"));
 //                    processos = geradorManual1();
 //                    processos = geradorManual2();
                     processos = geradorManual3();
@@ -72,7 +70,8 @@ public class Main {
 //                break;
             case "4": // Preemptivo
                 for (int i = 0; i < rodadas; i++) {
-                    System.out.println("\t   Iniciando Preemptivo\n\t\tTABELA DE PROCESSOS");
+                    System.out.println(("--------------------------------------\n\t" +
+                            "   Iniciando Preemptivo\n\t\tTABELA DE PROCESSOS").replaceAll("-","_"));
 //                    processos = geradorManual1();
 //                    processos = geradorManual2();
                     processos = geradorManual3();
@@ -88,7 +87,8 @@ public class Main {
 //                break;
             case "5": // NPreemptivo
                 for (int i = 0; i < rodadas; i++) {
-                    System.out.println("\t   Iniciando Não Preemptivo\n\t\tTABELA DE PROCESSOS");
+                    System.out.println(("--------------------------------------\n\t   " +
+                            "Iniciando Não Preemptivo\n\t\tTABELA DE PROCESSOS").replaceAll("-","_"));
 //                    processos = geradorManual1();
 //                    processos = geradorManual2();
                     processos = geradorManual3();
@@ -106,14 +106,10 @@ public class Main {
     }
 
     public static List<Processo> criaProcessos(int quantidade){
-
         List<Processo> processos = new ArrayList<>();
-
         Random rand = new Random();
-
         int tempoEntradaUniforme = rand.nextInt(20) + 1;
         int tempoChegada = 0;
-
         int prioridadeAtualAcalcular = 10;
         int qtdPrioridade1 = calcularPrioridadeX(quantidade, prioridadeAtualAcalcular);
         prioridadeAtualAcalcular += 10;
@@ -122,7 +118,6 @@ public class Main {
         int qtdPrioridade3 = calcularPrioridadeX(quantidade, prioridadeAtualAcalcular);
         prioridadeAtualAcalcular += 10;
         int qtdPrioridade4 = calcularPrioridadeX(quantidade, prioridadeAtualAcalcular);
-
         for (int i = 0; i < quantidade; i++) {
             int prioridade = 0;
             int tempoAtendimentoNecessario = rand.nextInt(30) + 1;
@@ -157,13 +152,11 @@ public class Main {
                             break;
                         }
                 }
-
             }
             Processo processo = new Processo((i+ 1), tempoChegada, tempoAtendimentoNecessario, prioridade);
             processos.add(processo);
 
         }
-
         return processos;
     }
 
@@ -183,7 +176,7 @@ public class Main {
 
     private static void mostraProcessos(List<Processo> processos){
         Formatter fmt = new Formatter();
-        fmt.format("%5s %7s %7s %10s", "PID","TC", "TA", "PRIO\n");
+        fmt.format("%5s %7s %7s %10s", "ID","TC", "TA", "PRIO\n");
         for (Processo p: processos) {
             fmt.format("%5d   %5d   %5d   %5d\n" , p.getId(), p.getTempoCriacao(), p.getTempoAtendimentoOriginal(), p.getPrioridade());
         }
