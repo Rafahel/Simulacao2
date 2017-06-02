@@ -40,12 +40,12 @@ public class RoundRobin{
             tempoAtual ++;
             if(processosAtivos.size() > 0){
                 /*
- Esta parte do código só vai rodar se o numero de processos ativos for maior que 0 (ZERO)
+                             Esta parte do código só vai rodar se o numero de processos ativos for maior que 0 (ZERO)
 
- Aqui esta sendo feita toda a execução dos processos, troca de contexto e remoção dos mesmos
- */
+                             Aqui esta sendo feita toda a execução dos processos, troca de contexto e remoção dos mesmos
+                */
                 if (processosAtivos.get(0).getId() != last && processosAtivos.get(0).getTempoEntradaProcessador() >= 0 || ocorreuTrocaDeProcesso){
-// System.out.println("");
+//                    System.out.println("");
                     ocorreuTrocaDeProcesso = false;
                     if(firstRun){
                         processosAtivos.get(0).setTempoEntradaProcessador(processosAtivos.get(0).getTempoEntradaProcessador() - 1);
@@ -53,28 +53,28 @@ public class RoundRobin{
                         firstRun = false;
                     }
 
-// System.out.print(processosAtivos.get(0).getId() + " " + (processosAtivos.get(0).getTempoEntradaProcessador()));
+//                    System.out.print(processosAtivos.get(0).getId() + " " + (processosAtivos.get(0).getTempoEntradaProcessador()));
                     if (processosAtivos.get(0).getId() <= last){
                         processosAtivos.get(0).setTempoSaida(tempoAtual);
                         processosAtivos.get(0).setTempoFila(processosAtivos.get(0).getTempoEntradaProcessador() - processosAtivos.get(0).getTempoCriacao());
                     }
 
-// System.out.println("Processo atual: " + processosAtivos.get(0).getId());
+//                    System.out.println("Processo atual: " + processosAtivos.get(0).getId());
                     last = processosAtivos.get(0).getId();
 
                 }
                 quantumAtual ++;
-// System.out.println(tempoAtual);
+//                System.out.println(tempoAtual);
                 if (processosAtivos.get(0).getTempoAtendimentoRestante() > 0){
                     if (processosAtivos.get(0).getTempoEntradaProcessador() == -1){
                         processosAtivos.get(0).setTempoEntradaProcessador(tempoAtual);
                         processosAtivos.get(0).setTempoFila(processosAtivos.get(0).getTempoEntradaProcessador() - processosAtivos.get(0).getTempoCriacao());
-// System.out.println("Tempo de entrada do processo " + processosAtivos.get(0).getId() + " = " + (processosAtivos.get(0).getTempoEntradaProcessador() - 1));
+                        // System.out.println("Tempo de entrada do processo " + processosAtivos.get(0).getId() + " = " + (processosAtivos.get(0).getTempoEntradaProcessador() - 1));
                     }
                     processosAtivos.get(0).diminuiTempoRestante();
                 }
 
-// System.out.println("Processo ID: " + processosAtivos.get(0).getId() + " TAR: " + processosAtivos.get(0).getTempoAtendimentoRestante());
+//                System.out.println("Processo ID: " + processosAtivos.get(0).getId() + " TAR: " + processosAtivos.get(0).getTempoAtendimentoRestante());
                 if (processosAtivos.get(0).getTempoAtendimentoRestante() == 0){
                     removeProcessoFimdeExecucao();
                     quantumAtual = 0;
@@ -135,7 +135,7 @@ public class RoundRobin{
     private void verificaSeTemNovoProcesso(){
         boolean flag = true;
         for (Processo p: processos) { // Se o processo chegou ele é adicionado a lista de processos ativos
-            // System.out.println("Tempo atual " + tempoAtual );
+//            System.out.println("Tempo atual " + tempoAtual );
             for (Processo a: processosAtivos) {
                 if (a.getId() == p.getId())
                     flag = false;
@@ -144,7 +144,7 @@ public class RoundRobin{
                 if (p.getTempoCriacao() == tempoAtual){
                     p.setTempoFila(tempoTotalDecorrido - p.getTempoCriacao());
                     processosAtivos.add(p);
-                    // System.out.println("Processo adicionado aos ativos");
+//                    System.out.println("Processo adicionado aos ativos");
                     if (p.getTempoCriacao() > tempoAtual){
                         break;
                     }
