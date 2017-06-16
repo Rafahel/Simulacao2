@@ -7,101 +7,70 @@ public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 //        System.out.print("Numero de processos que devem ser simulados: ");
-        String op = "1";
-        int rodadas = 1;
         int quantidade = 10;
 //        quantidade = scan.nextInt();
 //        System.out.print("Quantum: ");
         int quantum = 4;
 //        int quantum = scan.nextInt();
-        List<Processo> processos;
         double tempoOcioso = 0;
-        switch (op){
-            case "1": // ROUND ROBIN
-                for (int i = 0; i < rodadas; i++) {
-                    System.out.println(("--------------------------------------\n" +
-                            "Iniciando Round Robin\n\t\tTABELA DE PROCESSOS").replaceAll("-","_"));
-//                    processos = geradorManual1();
-//                    processos = geradorManual2();
-                    processos = geradorManual3();
-//                    processos = geradorManual4();
-                    mostraProcessos(processos);
-                    System.out.println("--------------------------------------\n\t\tTABELA FINAL CPU\n");
-                    RoundRobin roundRobin = new RoundRobin(quantum, processos);
-                    tempoOcioso += roundRobin.start();
+        List<Processo> processosO = criaProcessos(quantidade);
 
-                }
-                System.out.println("Tempo ocioso medio RR: " + tempoOcioso/rodadas + "\n");
-                tempoOcioso = 0;
-//                break;
-            case "2": // FIFO
-                for (int i = 0; i < rodadas; i++) {
-                    System.out.println(("--------------------------------------\n\t\t" +
-                            "  Iniciando FIFO\n\t\tTABELA DE PROCESSOS").replaceAll("-","_"));
-//                    processos = geradorManual1();
-//                    processos = geradorManual2();
-                    processos = geradorManual3();
-//                    processos = geradorManual4();
-                    mostraProcessos(processos);
-                    System.out.println("--------------------------------------\n\t\tTABELA FINAL CPU\n");
-                    FIFO fifo = new FIFO(processos);
-                    fifo.start();
-                    tempoOcioso += fifo.getTempoOcioso();
-                }
-                System.out.println("Tempo ocioso medio FIFO: " + tempoOcioso/rodadas + "\n");
-                tempoOcioso = 0;
-//                break;
-            case "3": // LIFO
-                for (int i = 0; i < rodadas; i++) {
-                    System.out.println(("--------------------------------------\n\t\t" +
-                            "  Iniciando LIFO\n\t\tTABELA DE PROCESSOS").replaceAll("-","_"));
-//                    processos = geradorManual1();
-//                    processos = geradorManual2();
-                    processos = geradorManual3();
-//                    processos = geradorManual4();
-                    mostraProcessos(processos);
-                    LIFO lifo = new LIFO(processos);
-                    System.out.println("--------------------------------------\n\t\tTABELA FINAL CPU\n");
-                    lifo.start();
-                    tempoOcioso += lifo.getTempoOcioso();
-                }
-                System.out.println("Tempo ocioso medio LIFO: " + tempoOcioso/rodadas + "\n");
-                tempoOcioso = 0;
-//                break;
-            case "4": // Preemptivo
-                for (int i = 0; i < rodadas; i++) {
-                    System.out.println(("--------------------------------------\n\t" +
-                            "   Iniciando Preemptivo\n\t\tTABELA DE PROCESSOS").replaceAll("-","_"));
-//                    processos = geradorManual1();
-//                    processos = geradorManual2();
-                    processos = geradorManual3();
-//                    processos = geradorManual4();
-                    mostraProcessos(processos);
-                    System.out.println("--------------------------------------\n\t\tTABELA FINAL CPU\n");
-                    Preemptivo preemptivo = new Preemptivo(processos);
-                    preemptivo.start();
-                    tempoOcioso += preemptivo.getTempoOcioso();
-                }
-                System.out.println("Tempo ocioso medio Preemptivo: " + tempoOcioso/rodadas + "\n");
-                tempoOcioso = 0;
-//                break;
-            case "5": // NPreemptivo
-                for (int i = 0; i < rodadas; i++) {
-                    System.out.println(("--------------------------------------\n\t   " +
-                            "Iniciando Não Preemptivo\n\t\tTABELA DE PROCESSOS").replaceAll("-","_"));
-//                    processos = geradorManual1();
-//                    processos = geradorManual2();
-                    processos = geradorManual3();
-//                    processos = geradorManual4();
-                    mostraProcessos(processos);
-                    System.out.println("--------------------------------------\n\t\tTABELA FINAL CPU\n");
-                    NPreemptivo nPreemptivo = new NPreemptivo(processos);
-                    nPreemptivo.start();
-                    tempoOcioso += nPreemptivo.getTempoOcioso();
-                }
-                System.out.println("Tempo ocioso medio Não Preemptivo: " + tempoOcioso/rodadas + "\n");
-//                break;
-        }
+        List<Processo> processos = new ArrayList<>(processosO);
+
+
+        System.out.println(("--------------------------------------\n" +
+                "Iniciando Round Robin\n\t\tTABELA DE PROCESSOS").replaceAll("-","_"));
+        mostraProcessos(processos);
+        System.out.println("--------------------------------------\n\t\tTABELA FINAL CPU\n");
+        RoundRobin roundRobin = new RoundRobin(quantum, processos);
+        roundRobin.start();
+        System.out.println("Tempo ocioso medio RR: " + tempoOcioso + "\n");
+        tempoOcioso = 0;
+
+
+        processos = new ArrayList<>(processosO);
+        System.out.println(("--------------------------------------\n\t\t" +
+                "  Iniciando FIFO\n\t\tTABELA DE PROCESSOS").replaceAll("-","_"));
+        mostraProcessos(processosO);
+        System.out.println("--------------------------------------\n\t\tTABELA FINAL CPU\n");
+        FIFO fifo = new FIFO(processos);
+        fifo.start();
+        tempoOcioso += fifo.getTempoOcioso();
+        System.out.println("Tempo ocioso medio FIFO: " + tempoOcioso + "\n");
+        tempoOcioso = 0;
+
+        processos = new ArrayList<>(processosO);
+        System.out.println(("--------------------------------------\n\t\t" +
+                "  Iniciando LIFO\n\t\tTABELA DE PROCESSOS").replaceAll("-","_"));
+        mostraProcessos(processos);
+        LIFO lifo = new LIFO(processos);
+        System.out.println("--------------------------------------\n\t\tTABELA FINAL CPU\n");
+        lifo.start();
+        tempoOcioso += lifo.getTempoOcioso();
+        System.out.println("Tempo ocioso medio LIFO: " + tempoOcioso + "\n");
+        tempoOcioso = 0;
+
+
+        System.out.println(("--------------------------------------\n\t" +
+                "   Iniciando Preemptivo\n\t\tTABELA DE PROCESSOS").replaceAll("-","_"));
+        mostraProcessos(processos);
+        System.out.println("--------------------------------------\n\t\tTABELA FINAL CPU\n");
+        Preemptivo preemptivo = new Preemptivo(processos);
+        preemptivo.start();
+        tempoOcioso += preemptivo.getTempoOcioso();
+        System.out.println("Tempo ocioso medio Preemptivo: " + tempoOcioso + "\n");
+        tempoOcioso = 0;
+
+
+        System.out.println(("--------------------------------------\n\t   " +
+                "Iniciando Não Preemptivo\n\t\tTABELA DE PROCESSOS").replaceAll("-","_"));
+        mostraProcessos(processos);
+        System.out.println("--------------------------------------\n\t\tTABELA FINAL CPU\n");
+        NPreemptivo nPreemptivo = new NPreemptivo(processos);
+        nPreemptivo.start();
+        tempoOcioso += nPreemptivo.getTempoOcioso();
+        System.out.println("Tempo ocioso medio Não Preemptivo: " + tempoOcioso + "\n");
+
 
     }
 
@@ -109,6 +78,7 @@ public class Main {
         List<Processo> processos = new ArrayList<>();
         Random rand = new Random();
         int tempoEntradaUniforme = rand.nextInt(20) + 1;
+
         int tempoChegada = 0;
         int prioridadeAtualAcalcular = 10;
         int qtdPrioridade1 = calcularPrioridadeX(quantidade, prioridadeAtualAcalcular);
@@ -122,6 +92,7 @@ public class Main {
             int prioridade = 0;
             int tempoAtendimentoNecessario = rand.nextInt(30) + 1;
             tempoChegada += tempoEntradaUniforme;
+            System.out.println(tempoChegada);
             while(prioridade == 0){
                 switch (randomPrioridade()){
                     case 1:
@@ -242,6 +213,9 @@ public class Main {
         processos.add(c);
         return processos;
     }
+
+
+
 
 
 }

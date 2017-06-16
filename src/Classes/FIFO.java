@@ -91,7 +91,6 @@ public class FIFO {
 
 
     protected void mostraResultados(){
-        System.out.println("TESTE TAB RESULTADOS");
         Formatter fmt = new Formatter();
         fmt.format("%5s   %5s   %5s   %5s   %5s   %5s\n", "ID", "TC", "TE", "TF", "TS", "PRIO");
         for (ResultadosFinais rf: resultados) {

@@ -9,16 +9,16 @@ import java.util.List;
 public class RoundRobin{
     private int tempoAtual;
     private final int quantum;
-    private List<Processo> processos;
+    private List<Processo> processosexistentes;
     private List<Processo> processosAtivos;
     private int tempoTotalDecorrido;
     private int tempoOcioso;
     private List<ResultadosFinais> resultados;
 
-    public RoundRobin(int quantum, List<Processo> processos) {
+    public RoundRobin(int quantum, final List<Processo> processos) {
         this.tempoAtual = 0;
         this.quantum = quantum;
-        this.processos = processos;
+        this.processosexistentes = new ArrayList<>(processos);
         this.processosAtivos = new ArrayList<>();
         this.tempoTotalDecorrido = 0;
         this.tempoOcioso = 0;
@@ -26,7 +26,7 @@ public class RoundRobin{
     }
 
     public int start(){
-        int quantidadeProcessos = this.processos.size();
+        int quantidadeProcessos = this.processosexistentes.size();
         boolean ocorreuTrocaDeProcesso = false;
         int last = 0;
         int quantumAtual = 0;
@@ -134,7 +134,7 @@ public class RoundRobin{
 
     private void verificaSeTemNovoProcesso(){
         boolean flag = true;
-        for (Processo p: processos) { // Se o processo chegou ele é adicionado a lista de processos ativos
+        for (Processo p: processosexistentes) { // Se o processo chegou ele é adicionado a lista de processos ativos
 //            System.out.println("Tempo atual " + tempoAtual );
             for (Processo a: processosAtivos) {
                 if (a.getId() == p.getId())
