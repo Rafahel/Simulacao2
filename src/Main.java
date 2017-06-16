@@ -4,19 +4,18 @@ import java.util.*;
 
 @SuppressWarnings("ALL")
 public class Main {
+    public List<Processo> p = new ArrayList<>();
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-//        System.out.print("Numero de processos que devem ser simulados: ");
-        int quantidade = 10;
-//        quantidade = scan.nextInt();
-//        System.out.print("Quantum: ");
-        int quantum = 4;
-//        int quantum = scan.nextInt();
+        System.out.print("Numero de processos que devem ser simulados: ");
+        int quantidade;
+        quantidade = scan.nextInt();
+        System.out.print("\nQuantum: ");
+        int quantum = scan.nextInt();
         double tempoOcioso = 0;
-        List<Processo> processosO = criaProcessos(quantidade);
-
-        List<Processo> processos = new ArrayList<>(processosO);
-
+        ArrayList<Processo> processosO = criaProcessos(quantidade);
+        List<Processo> processos = new ArrayList<Processo>();
+        processos = copia(processosO);
 
         System.out.println(("--------------------------------------\n" +
                 "Iniciando Round Robin\n\t\tTABELA DE PROCESSOS").replaceAll("-","_"));
@@ -26,12 +25,13 @@ public class Main {
         roundRobin.start();
         System.out.println("Tempo ocioso medio RR: " + tempoOcioso + "\n");
         tempoOcioso = 0;
+        processos.clear();
 
+        processos = copia(processosO);
 
-        processos = new ArrayList<>(processosO);
         System.out.println(("--------------------------------------\n\t\t" +
                 "  Iniciando FIFO\n\t\tTABELA DE PROCESSOS").replaceAll("-","_"));
-        mostraProcessos(processosO);
+        mostraProcessos(processos);
         System.out.println("--------------------------------------\n\t\tTABELA FINAL CPU\n");
         FIFO fifo = new FIFO(processos);
         fifo.start();
@@ -39,7 +39,8 @@ public class Main {
         System.out.println("Tempo ocioso medio FIFO: " + tempoOcioso + "\n");
         tempoOcioso = 0;
 
-        processos = new ArrayList<>(processosO);
+        processos = copia(processosO);
+
         System.out.println(("--------------------------------------\n\t\t" +
                 "  Iniciando LIFO\n\t\tTABELA DE PROCESSOS").replaceAll("-","_"));
         mostraProcessos(processos);
@@ -50,6 +51,7 @@ public class Main {
         System.out.println("Tempo ocioso medio LIFO: " + tempoOcioso + "\n");
         tempoOcioso = 0;
 
+        processos = copia(processosO);
 
         System.out.println(("--------------------------------------\n\t" +
                 "   Iniciando Preemptivo\n\t\tTABELA DE PROCESSOS").replaceAll("-","_"));
@@ -61,6 +63,7 @@ public class Main {
         System.out.println("Tempo ocioso medio Preemptivo: " + tempoOcioso + "\n");
         tempoOcioso = 0;
 
+        processos = copia(processosO);
 
         System.out.println(("--------------------------------------\n\t   " +
                 "Iniciando Não Preemptivo\n\t\tTABELA DE PROCESSOS").replaceAll("-","_"));
@@ -71,11 +74,10 @@ public class Main {
         tempoOcioso += nPreemptivo.getTempoOcioso();
         System.out.println("Tempo ocioso medio Não Preemptivo: " + tempoOcioso + "\n");
 
-
     }
 
-    public static List<Processo> criaProcessos(int quantidade){
-        List<Processo> processos = new ArrayList<>();
+    public static ArrayList<Processo> criaProcessos(int quantidade){
+        ArrayList<Processo> processos = new ArrayList<>();
         Random rand = new Random();
         int tempoEntradaUniforme = rand.nextInt(20) + 1;
 
@@ -92,7 +94,6 @@ public class Main {
             int prioridade = 0;
             int tempoAtendimentoNecessario = rand.nextInt(30) + 1;
             tempoChegada += tempoEntradaUniforme;
-            System.out.println(tempoChegada);
             while(prioridade == 0){
                 switch (randomPrioridade()){
                     case 1:
@@ -214,7 +215,18 @@ public class Main {
         return processos;
     }
 
-
+    private static List<Processo> copia(List<Processo> processosO){
+        List<Processo> processos = new ArrayList<>();
+        for (Processo p: processosO) {
+            Processo copia = deepCopy(p);
+            processos.add(copia);
+        }
+        return processos;
+    }
+    public static Processo deepCopy(Processo input){
+        Processo copy = new Processo(input.getId(), input.getTempoCriacao(), input.getTempoAtendimentoOriginal(), input.getPrioridade());
+        return copy;
+    }
 
 
 
