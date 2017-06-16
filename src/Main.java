@@ -155,66 +155,6 @@ public class Main {
         System.out.println(fmt);
     }
 
-    private static List<Processo> geradorManual1(){
-        List<Processo> processos = new ArrayList<>();
-        Processo a = new Processo(1,0,7, 1);
-        processos.add(a);
-        Processo b = new Processo(2,3,5, 1);
-        processos.add(b);
-        Processo c = new Processo(3,5,4, 1);
-        processos.add(c);
-        Processo d = new Processo(4,6,6, 1);
-        processos.add(d);
-        Processo e = new Processo(5,8,5, 1);
-        processos.add(e);
-        Processo f = new Processo(6,10,8, 1);
-        processos.add(f);
-        Processo g = new Processo(7,12,4, 1);
-        processos.add(g);
-        return processos;
-    }
-
-    private static List<Processo> geradorManual2(){
-        List<Processo> processos = new ArrayList<>();
-        Processo a = new Processo(1,0,9,2);
-        processos.add(a);
-        Processo b = new Processo(2,3,7,1);
-        processos.add(b);
-        Processo c = new Processo(3,5,11,2);
-        processos.add(c);
-        Processo d = new Processo(4,6,6,2);
-        processos.add(d);
-        Processo e = new Processo(5,9,8,1);
-        processos.add(e);
-        return processos;
-    }
-
-    private static List<Processo> geradorManual3(){ // Usar quantum 10
-        List<Processo> processos = new ArrayList<>();
-        Processo a = new Processo(1,0,11,2);
-        processos.add(a);
-        Processo b = new Processo(2,5,13,1);
-        processos.add(b);
-        Processo c = new Processo(3,10,9,2);
-        processos.add(c);
-        Processo d = new Processo(4,15,14,3);
-        processos.add(d);
-        Processo e = new Processo(5,20,8,2);
-        processos.add(e);
-        return processos;
-    }
-    private static List<Processo> geradorManual4(){ // Usar quantum 10
-        List<Processo> processos = new ArrayList<>();
-
-        Processo a = new Processo(1,0,11,2);
-        processos.add(a);
-        Processo b = new Processo(2,15,13,1);
-        processos.add(b);
-        Processo c = new Processo(3,16,9,2);
-        processos.add(c);
-        return processos;
-    }
-
     private static List<Processo> copia(List<Processo> processosO){
         List<Processo> processos = new ArrayList<>();
         for (Processo p: processosO) {
@@ -227,7 +167,5 @@ public class Main {
         Processo copy = new Processo(input.getId(), input.getTempoCriacao(), input.getTempoAtendimentoOriginal(), input.getPrioridade());
         return copy;
     }
-
-
 
 }
