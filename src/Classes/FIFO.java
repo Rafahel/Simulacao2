@@ -62,7 +62,7 @@ public class FIFO {
             processosAtivos.remove(0);
             if (processosAtivos.size() > 0){
                 processosAtivos.get(0).setTempoFila((tempoAtual - processosAtivos.get(0).getTempoCriacao()) + 1);
-                if (processosAtivos.get(0).getTempoCriacao() == tempoAtual) // TODO Verificar no LIfo se fica negativo
+                if (processosAtivos.get(0).getTempoCriacao() == tempoAtual)
                     processosAtivos.get(0).setTempoFila(0);
             }
             firstRun = true;
