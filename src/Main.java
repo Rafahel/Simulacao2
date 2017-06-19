@@ -10,7 +10,7 @@ public class Main {
         System.out.print("Numero de processos que devem ser simulados: ");
         int quantidade;
         quantidade = scan.nextInt();
-        System.out.print("\nQuantum: ");
+        System.out.print("Quantum: ");
         int quantum = scan.nextInt();
         double tempoOcioso = 0;
         ArrayList<Processo> processosO = criaProcessos(quantidade);
@@ -82,68 +82,57 @@ public class Main {
         int tempoEntradaUniforme = rand.nextInt(20) + 1;
 
         int tempoChegada = 0;
-        int prioridadeAtualAcalcular = 10;
-        int qtdPrioridade1 = calcularPrioridadeX(quantidade, prioridadeAtualAcalcular);
-        prioridadeAtualAcalcular += 10;
-        int qtdPrioridade2 = calcularPrioridadeX(quantidade, prioridadeAtualAcalcular);
-        prioridadeAtualAcalcular += 10;
-        int qtdPrioridade3 = calcularPrioridadeX(quantidade, prioridadeAtualAcalcular);
-        prioridadeAtualAcalcular += 10;
-        int qtdPrioridade4 = calcularPrioridadeX(quantidade, prioridadeAtualAcalcular);
+        int qtdPrioridade1 = 0;
+        int qtdPrioridade2 = 0;
+        int qtdPrioridade3 = 0;
+        int qtdPrioridade4 = 0;
         for (int i = 0; i < quantidade; i++) {
             int prioridade = 0;
             int tempoAtendimentoNecessario = rand.nextInt(30) + 1;
             tempoChegada += tempoEntradaUniforme;
-            while(prioridade == 0){
-                switch (randomPrioridade()){
-                    case 1:
-                        if(qtdPrioridade1 > 0){
-                            prioridade = 1;
-                            qtdPrioridade1--;
-                            break;
-                        }
 
-                    case 2:
-                        if(qtdPrioridade2 > 0){
-                            prioridade = 2;
-                            qtdPrioridade2--;
-                            break;
-                        }
+            prioridade = prioridade();
 
-                    case 3:
-                        if(qtdPrioridade3 > 0){
-                            prioridade = 3;
-                            qtdPrioridade3--;
-                            break;
-                        }
+            if (prioridade == 1)
+                qtdPrioridade1++;
+            if (prioridade == 2)
+                qtdPrioridade2++;
+            if (prioridade == 3)
+                qtdPrioridade3++;
+            if (prioridade == 4)
+                qtdPrioridade4++;
 
-                    case 4:
-                        if(qtdPrioridade4 > 0){
-                            prioridade = 4;
-                            qtdPrioridade4--;
-                            break;
-                        }
-                }
-            }
             Processo processo = new Processo((i+ 1), tempoChegada, tempoAtendimentoNecessario, prioridade);
             processos.add(processo);
 
         }
+        System.out.println("Quantidade de prioridades 1: " + qtdPrioridade1 +
+                "\n" +"Quantidade de prioridades 2: " + qtdPrioridade2 + "\n" +
+                "Quantidade de prioridades 3: " + qtdPrioridade3 + "\n" +
+                "Quantidade de prioridades 4: " + qtdPrioridade4 + "\n");
         return processos;
     }
 
-    private static int calcularPrioridadeX(int totalDeClientes, int prioridadeAtual){
-        int total;
-        double porcentagem = (double)prioridadeAtual / 100;
-//        System.out.println("Total = "  + porcentagem * totalDeClientes);
-        total = (int)Math.round(porcentagem * totalDeClientes);
-//        System.out.println(total);
-        return total;
-    }
-
-    private static int randomPrioridade(){
+    private static int prioridade(){
         Random rand = new Random();
-        return rand.nextInt(4) + 1;
+        boolean val;
+        int prob = 0;
+        while (prob == 0){
+            val = rand.nextInt(2)==0;
+            if (val)
+                prob = 4;
+            val = rand.nextInt(3)==0;
+            if (val)
+                prob = 3;
+            val = rand.nextInt(5)==0;
+            if (val)
+                prob = 2;
+            val = rand.nextInt(10)==0;
+            if (val){
+                prob = 1;
+            }
+        }
+        return prob;
     }
 
     private static void mostraProcessos(List<Processo> processos){

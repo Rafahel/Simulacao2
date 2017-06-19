@@ -1,22 +1,26 @@
 package Classes;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class LIFO extends FIFO {
+    private int totalProcessos;
     private int idProcessoAtivoAtual;
     public LIFO(List<Processo> processos) {
         super(processos);
+        this.totalProcessos = processos.size();
         this.idProcessoAtivoAtual = -1;
     }
 
     @Override
     public int start(){
         while(true){
-            if (finalizados >= processos.size())
+            if (finalizados >= totalProcessos)
                 break;
             verificaSeTemNovoProcesso();
 
             if (processosAtivos.size() > 0){
+//                System.out.println("Processo atual: " +  processosAtivos.get(0).getId() + " Tempo restante: " + processosAtivos.get(0).getTempoAtendimentoRestante() );
                 if (firstRun){
                     processosAtivos.get(0).setTempoEntradaProcessador(tempoAtual);
                     if (processosAtivos.get(0).getTempoCriacao() == tempoAtual )
@@ -26,9 +30,12 @@ public class LIFO extends FIFO {
 
                     firstRun = false;
                 }
-                processosAtivos.get(0).diminuiTempoRestante();
+                if (processosAtivos.get(0).getTempoAtendimentoRestante() > 0)
+                    processosAtivos.get(0).diminuiTempoRestante();
+
                 idProcessoAtivoAtual = processosAtivos.get(0).getId();
                 super.checaSeProcessoDeveSair();
+                verificaSeTemNovoProcesso();
             }
             else {
                 tempoOcioso++;
@@ -40,9 +47,8 @@ public class LIFO extends FIFO {
         return tempoAtual;
     }
 
-
    @Override
-   protected void verificaSeTemNovoProcesso(){
+   protected void verificaSeTemNovoProcesso() {
         boolean flag = true;
         for (Processo p: processos) { // Se o processo chegou ele é adicionado a lista de processos ativos
 //                System.out.println("Tempo atual " + tempoAtual );
