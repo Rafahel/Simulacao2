@@ -1,5 +1,4 @@
 import Classes.*;
-
 import java.util.*;
 
 @SuppressWarnings("ALL")
@@ -12,8 +11,22 @@ public class Main {
         quantidade = scan.nextInt();
         System.out.print("Quantum: ");
         int quantum = scan.nextInt();
+        System.out.print("O primeiro processo inicia no tempo zero (1 para sim 0 nao)? ");
+        int entrada = scan.nextInt();
+        System.out.print("");
+
+        boolean tempoIniciaEmZero;
+        if(entrada == 1){
+            tempoIniciaEmZero = true;
+        }
+        else{
+            tempoIniciaEmZero = false;
+        }
+        System.out.print("Tempo uniforme desejado: ");
+        int tempoUniforme = scan.nextInt();
+
         double tempoOcioso = 0;
-        ArrayList<Processo> processosO = criaProcessos(quantidade);
+        ArrayList<Processo> processosO = criaProcessos(quantidade, tempoUniforme, tempoIniciaEmZero);
         List<Processo> processos = new ArrayList<Processo>();
         processos = copia(processosO);
 
@@ -76,10 +89,10 @@ public class Main {
 
     }
 
-    public static ArrayList<Processo> criaProcessos(int quantidade){
+    public static ArrayList<Processo> criaProcessos(int quantidade, int tempoUniforme, boolean iniciaEmZero){
         ArrayList<Processo> processos = new ArrayList<>();
         Random rand = new Random();
-        int tempoEntradaUniforme = rand.nextInt(20) + 1;
+        int tempoEntradaUniforme = tempoUniforme;
 
         int tempoChegada = 0;
         int qtdPrioridade1 = 0;
@@ -89,8 +102,12 @@ public class Main {
         for (int i = 0; i < quantidade; i++) {
             int prioridade = 0;
             int tempoAtendimentoNecessario = rand.nextInt(30) + 1;
-            tempoChegada += tempoEntradaUniforme;
 
+            tempoChegada += tempoEntradaUniforme;
+            if(iniciaEmZero){
+                tempoChegada = 0;
+                iniciaEmZero = false;
+            }
             prioridade = prioridade();
 
             if (prioridade == 1)
